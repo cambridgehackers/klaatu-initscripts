@@ -1,0 +1,95 @@
+#################
+# Loki services
+
+service powermanager /system/bin/powermanager
+    class loki_programs 
+    user system 
+    group system 
+
+service permcontroller /system/bin/permissioncontroller
+    class loki_programs 
+    user root
+    group system 
+
+service schedmanager /system/bin/schedulingmanager
+    class loki_programs 
+    user root
+    group system 
+
+service wifiservice /system/bin/klaatu_wifiservice
+    class loki_programs 
+    user root 
+    group system 
+
+service phoneservice /system/bin/klaatu_phoneservice
+    class loki_programs 
+    user radio
+    group radio
+
+service loki /system/bin/logwrapper /system/bin/lokity /system/examples/nexus/qml/nexus.qml
+    class loki_programs 
+    user root 
+    group system 
+    setenv QML_IMPORT_PATH /system/examples/nexus/qml/import
+    setenv QT_QPA_EGLFS_HIDECURSOR 1
+
+service volumeDefaults /system/bin/klaatu_audioconfig setdefaults    
+    class loki_programs
+    user root
+    group system
+    oneshot
+
+
+
+# Use the sys.ui.config property to switch modes
+
+on property:sys.ui.config=none
+   stop powermanager
+   stop permcontroller
+   stop schedmanager
+   stop wifiservice
+   stop phoneservice
+   stop loki
+   stop zygote
+   setprop sys.ui.state ${sys.ui.config}
+
+on property:sys.ui.config=zygote
+   stop powermanager
+   stop permcontroller
+   stop schedmanager
+   stop wifiservice
+   stop phoneservice
+   stop loki
+   start zygote
+   setprop sys.ui.state ${sys.ui.config}
+
+on property:sys.ui.config=loki
+   stop zygote
+   start powermanager
+   start permcontroller
+   start schedmanager
+   start wifiservice
+   start phoneservice
+   start loki
+   start volumeDefaults
+   setprop sys.ui.state ${sys.ui.config}
+
+# To restart the current ui, set sys.ui.restart = true
+
+on property:sys.ui.restart=true
+   setprop sys.ui.restart ${sys.ui.config}
+
+on property:sys.ui.restart=zygote
+   restart zygote
+
+on property:sys.ui.restart=loki
+   restart loki
+
+# Use the "persist.sys.ui.config" property to set what UI we wish
+# to boot into.
+#
+# To make this permanent, set "persist.sys.ui.config=loki" in default.prop
+
+on property:persist.sys.ui.config=*
+   setprop sys.ui.config ${persist.sys.ui.config}
+
