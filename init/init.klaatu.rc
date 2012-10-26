@@ -1,17 +1,17 @@
 #################
 # Klaatu services
 
-service powermanager /system/bin/powermanager
+service powermanager /system/bin/klaatu_powermanager
     class klaatu_programs 
     user system 
     group system 
 
-service permcontroller /system/bin/permissioncontroller
+service permcontroller /system/bin/klaatu_permissioncontroller
     class klaatu_programs 
     user root
     group system 
 
-service schedmanager /system/bin/schedulingmanager
+service schedmanager /system/bin/klaatu_schedulingmanager
     class klaatu_programs 
     user root
     group system 
@@ -30,7 +30,9 @@ service klaatu /system/bin/logwrapper /system/bin/klaatu_qmlscene /system/exampl
     class klaatu_programs 
     user root 
     group system 
-    setenv QML_IMPORT_PATH /system/examples/nexus/qml/import
+    setenv QML_IMPORT_PATH /system/imports:/system/examples/nexus/qml/import
+    setenv QT_QPA_FONTDIR /system/lib/fonts
+    setenv QT_PLUGIN_PATH /system/plugins
     setenv QT_QPA_EGLFS_HIDECURSOR 1
 
 service volumeDefaults /system/bin/klaatu_audioconfig setdefaults    
