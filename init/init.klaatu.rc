@@ -41,7 +41,11 @@ service volumeDefaults /system/bin/klaatu_audioconfig setdefaults
     group system
     oneshot
 
-
+service InitHostname /system/bin/hostname_init.sh
+    class core
+    user root
+    group root
+    oneshot
 
 # Use the sys.ui.config property to switch modes
 
@@ -74,6 +78,7 @@ on property:sys.ui.config=klaatu
    start phoneservice
    start klaatu
    start volumeDefaults
+   start InitHostname
    setprop sys.ui.state ${sys.ui.config}
 
 # To restart the current ui, set sys.ui.restart = true
