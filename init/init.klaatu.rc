@@ -33,7 +33,6 @@ service klaatu /system/bin/logwrapper /system/bin/klaatu_qmlscene /system/exampl
     setenv QML_IMPORT_PATH /system/imports:/system/examples/nexus/qml/import
     setenv QT_QPA_FONTDIR /system/lib/fonts
     setenv QT_PLUGIN_PATH /system/plugins
-    setenv QT_QPA_EGLFS_HIDECURSOR 1
 
 service volumeDefaults /system/bin/klaatu_audioconfig setdefaults    
     class klaatu_programs
