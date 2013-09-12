@@ -1,0 +1,23 @@
+# Add the import of init.klaatu.rc
+s%import /init.trace.rc.*%&\
+import /init.klaatu.rc%
+# replace the starting of zygote with setting sys.ui.restart
+s/onrestart restart zygote/onrestart setprop sys.ui.restart="true"/
+# disable the zygote service
+/service zygote/,/service/ s/^[\t ]*$/    disabled\
+&/
+# switch from bootanimation to klaatu_bootanimation
+s%/system/bin/bootanimation%/system/bin/klaatu_bootanimation%
+# restart volumeDefaults if media is restarted
+/service media/,/service/ s/^[\t ]*$/    onrestart restart volumeDefaults\
+&/
+# add the sensorservice
+$a\
+service sensorservice /system/bin/sensorservice\
+    class main\
+    user root\
+    group system
+# remove the Android schedmanager (if present)
+/service schedmanager/,/^[\t ]*$/d
+# remove the Android powermanager (if present)
+/service powermanager/,/^[\t ]*$/d
