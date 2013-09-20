@@ -26,6 +26,11 @@ service phoneservice /system/bin/klaatu_phoneservice
     user radio
     group radio
 
+service sensorservice /system/bin/sensorservice
+    class klaatu_programs
+    user root
+    group system
+
 service klaatu /system/bin/logwrapper /system/bin/klaatu_qmlscene /system/examples/nexus/qml/nexus.qml
     class klaatu_programs 
     user root 
@@ -54,6 +59,7 @@ on property:sys.ui.config=none
    stop schedmanager
    stop wifiservice
    stop phoneservice
+   stop sensorservice
    stop klaatu
    stop zygote
    setprop sys.ui.state ${sys.ui.config}
@@ -64,6 +70,7 @@ on property:sys.ui.config=zygote
    stop schedmanager
    stop wifiservice
    stop phoneservice
+   stop sensorservice
    stop klaatu
    start zygote
    setprop sys.ui.state ${sys.ui.config}
@@ -75,6 +82,7 @@ on property:sys.ui.config=klaatu
    start schedmanager
    start wifiservice
    start phoneservice
+   start sensorservice
    start klaatu
    start volumeDefaults
    start InitHostname

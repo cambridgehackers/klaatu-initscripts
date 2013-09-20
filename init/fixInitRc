@@ -11,12 +11,6 @@ s%/system/bin/bootanimation%/system/bin/klaatu_bootanimation%
 # restart volumeDefaults if media is restarted
 /service media/,/service/ s/^[\t ]*$/    onrestart restart volumeDefaults\
 &/
-# add the sensorservice
-$a\
-service sensorservice /system/bin/sensorservice\
-    class main\
-    user root\
-    group system
 # remove the Android schedmanager (if present)
 /service schedmanager/,/^[\t ]*$/d
 # remove the Android powermanager (if present)
