@@ -1,37 +1,26 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
-LOCAL_SRC_FILES:= \
-	qtklaatu-demos-dependencyForcer.c
+file := $(TARGET_ROOT_OUT)/default.prop
+$(file) : $(LOCAL_PATH)/init/default.prop | $(ACP)
+	$(transform-prebuilt-to-target)
+ALL_MODULES += $(file)
+ALL_DEFAULT_INSTALLED_MODULES += $(file)
 
-#LOCAL_SHARED_LIBRARIES := \
-#	libutils \
-#	libbinder
+file := $(TARGET_ROOT_OUT)/init.klaatu.rc
+$(file) : $(LOCAL_PATH)/init/init.klaatu.rc | $(ACP)
+	$(transform-prebuilt-to-target)
+ALL_MODULES += $(file)
+ALL_DEFAULT_INSTALLED_MODULES += $(file)
 
+file := $(TARGET_ROOT_OUT)/init.rc.preKlaatu
+$(file) : $(LOCAL_PATH)/init/fixInitRc | $(TARGET_ROOT_OUT)/init.rc
+	$(hide) sed -f $< -i.preKlaatu $(TARGET_ROOT_OUT)/init.rc
+ALL_MODULES += $(file)
+ALL_DEFAULT_INSTALLED_MODULES += $(file)
 
-ifeq ($(TARGET_OS),linux)
-	LOCAL_CFLAGS += -DXP_UNIX
-#LOCAL_SHARED_LIBRARIES += librt
-endif
-
-LOCAL_MODULE:= qtklaatu-demos-dependencyForcer
-LOCAL_MODULE_TAGS := eng
-LOCAL_MODULE_CLASS := EXECUTABLES
-# this line makes sure we build AFTER the base Qt libraries
-LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_EXECUTABLES)/qtbase-dependencyForcer 
-LOCAL_ADDITIONAL_DEPENDENCIES += $(TARGET_OUT_EXECUTABLES)/qtjsbackend-dependencyForcer
-LOCAL_ADDITIONAL_DEPENDENCIES += $(TARGET_OUT_EXECUTABLES)/qtdeclarative-dependencyForcer
-intermediates:= $(local-intermediates-dir)
-
-GEN := $(LOCAL_PATH)/qtklaatu-demos-dependencyForcer.c
-$(GEN): PRIVATE_INPUT_FILE := $(LOCAL_PATH)/AndroidQtBuild.sh
-$(GEN): PRIVATE_CUSTOM_TOOL = bash $(PRIVATE_INPUT_FILE) $@ 
-$(GEN): $(LOCAL_PATH)/AndroidQtBuild.sh 
-	$(transform-generated-source)
-$(GEN):$(TARGET_OUT_EXECUTABLES)/qtdeclarative-dependencyForcer 
-.PHONY: $(GEN)
-#LOCAL_GENERATED_SOURCES += $(GEN)
-
-
-
-include $(BUILD_EXECUTABLE)
+file := $(TARGET_OUT)/hostname_init.sh
+$(file) : $(LOCAL_PATH)/scripts/hostname_init.sh | $(ACP)
+	$(transform-prebuilt-to-target)
+ALL_MODULES += $(file)
+ALL_DEFAULT_INSTALLED_MODULES += $(file)
