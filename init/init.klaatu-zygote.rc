@@ -1,0 +1,8 @@
+on property:sys.ui.start=zygote
+   start zygote
+
+on property:sys.ui.stop=zygote
+   stop zygote
+
+on property:sys.ui.restart=zygote
+   restart zygote

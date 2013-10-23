@@ -1,0 +1,17 @@
+service klaatu_qt /system/bin/logwrapper /system/bin/klaatu_qmlscene /system/examples/nexus/qml/nexus.qml
+    user root 
+    group system 
+    setenv QML_IMPORT_PATH /system/imports:/system/examples/nexus/qml/import
+    setenv QT_QPA_FONTDIR /system/lib/fonts
+    setenv QT_PLUGIN_PATH /system/plugins
+
+on property:sys.ui.start=qt
+   class_start klaatu_programs
+   start klaatu_qt
+
+on property:sys.ui.stop=qt
+   stop klaatu_qt
+   class_reset klaatu_programs
+
+on property:sys.ui.restart=qt
+   restart klaatu_qt

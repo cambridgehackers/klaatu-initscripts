@@ -1,0 +1,8 @@
+on property:sys.ui.start=headless
+   class_start klaatu_programs
+
+on property:sys.ui.stop=headless
+   class_reset klaatu_programs
+
+on property:sys.ui.restart=headless
+#  do nothing
