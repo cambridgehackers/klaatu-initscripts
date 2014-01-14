@@ -1,6 +1,9 @@
 #################
 # Klaatu services
 
+on post-fs
+    chmod 600 /data/property/persist.sys.ui.config
+
 service powermanager /system/bin/klaatu_powermanager
     class klaatu_programs 
     user system 
