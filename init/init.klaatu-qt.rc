@@ -1,7 +1,7 @@
-service klaatu_qt /system/bin/logwrapper /system/bin/klaatu_qmlscene /system/examples/nexus/qml/nexus.qml
+service klaatu_qt /system/bin/logwrapper /system/bin/klaatu_qmlscene /system/examples/qml/main.qml
     user root 
     group system 
-    setenv QML_IMPORT_PATH /system/imports:/system/examples/nexus/qml/import
+    setenv QML_IMPORT_PATH /system/imports:/system/examples/qml/import
     setenv QT_QPA_FONTDIR /system/lib/fonts
     setenv QT_PLUGIN_PATH /system/plugins
 
