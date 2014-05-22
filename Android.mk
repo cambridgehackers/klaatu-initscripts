@@ -29,6 +29,7 @@ ifdef KLAATU_DEFAULT_UI
 file := $(TARGET_OUT_DATA)/property/persist.sys.ui.config
 .PHONY: $(file)
 $(file) :
+	mkdir -p $(TARGET_OUT_DATA)/property
 	echo -n $(KLAATU_DEFAULT_UI) > $(TARGET_OUT_DATA)/property/persist.sys.ui.config
 ALL_MODULES += $(file)
 ALL_DEFAULT_INSTALLED_MODULES += $(file)
