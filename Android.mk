@@ -26,9 +26,9 @@ ALL_MODULES += $(file)
 ALL_DEFAULT_INSTALLED_MODULES += $(file)
 
 ifdef KLAATU_DEFAULT_UI
-KLAATU_COMPONENTS_RC = $(shell echo $(KLAATU_COMPONENTS) | tr [:upper:] [:lower:] | sed "s:klaatu_include_\([a-z0-9_-]*\):$(TARGET_ROOT_OUT)/init.klaatu-\1.rc:g")
 file := $(TARGET_OUT_DATA)/property/persist.sys.ui.config
-$(file) : $(KLAATU_COMPONENTS_RC)
+.PHONY: $(file)
+$(file) :
 	echo -n $(KLAATU_DEFAULT_UI) > $(TARGET_OUT_DATA)/property/persist.sys.ui.config
 ALL_MODULES += $(file)
 ALL_DEFAULT_INSTALLED_MODULES += $(file)
