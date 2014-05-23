@@ -13,6 +13,14 @@ $(file) : $(LOCAL_PATH)/init/init.klaatu.rc | $(ACP)
 ALL_MODULES += $(file)
 ALL_DEFAULT_INSTALLED_MODULES += $(file)
 
+file := $(TARGET_ROOT_OUT)/init.klaatu-headless.rc
+$(file) : $(LOCAL_PATH)/init/init.klaatu-headless.rc | $(TARGET_ROOT_OUT)/init.klaatu.rc $(ACP)
+	$(transform-prebuilt-to-target)
+	echo "import /init.klaatu-headless.rc" >> $(TARGET_ROOT_OUT)/init.klaatu.rc
+	echo "headless Headless" >> $(TARGET_ROOT_OUT)/UIs.txt
+ALL_MODULES += $(file)
+ALL_DEFAULT_INSTALLED_MODULES += $(file)
+
 file := $(TARGET_ROOT_OUT)/init.rc.preKlaatu
 $(file) : $(LOCAL_PATH)/init/fixInitRc | $(TARGET_ROOT_OUT)/init.rc
 	$(hide) sed -f $< -i.preKlaatu $(TARGET_ROOT_OUT)/init.rc
