@@ -1,0 +1,75 @@
+#################
+# Klaatu services
+
+on post-fs
+    chmod 600 /data/property/persist.sys.ui.config
+
+service powermanager /system/bin/klaatu_powermanager
+    class klaatu_programs 
+    user system 
+    group system 
+
+service permcontroller /system/bin/klaatu_permissioncontroller
+    class klaatu_programs 
+    user root
+    group system 
+
+service appops /system/bin/klaatu_appops
+    class klaatu_programs 
+    user root
+    group system 
+
+service schedmanager /system/bin/klaatu_schedulingmanager
+    class klaatu_programs 
+    user root
+    group system 
+
+service wifiservice /system/bin/klaatu_wifiservice
+    class klaatu_programs 
+    user root 
+    group system 
+
+service phoneservice /system/bin/klaatu_phoneservice
+    class klaatu_programs 
+    user radio
+    group radio
+
+service sensorservice /system/bin/sensorservice
+    class klaatu_programs
+    user root
+    group system
+
+service volumeDefaults /system/bin/klaatu_audioconfig setdefaults    
+    class klaatu_programs
+    user root
+    group system
+    oneshot
+
+service InitHostname /system/bin/hostname_init.sh
+    class core
+    user root
+    group root
+    oneshot
+
+# Use the sys.ui.config property to switch modes
+
+on property:sys.ui.config=*
+#  trigger doesn't expand variables, so we have to use setprop
+   setprop sys.ui.stop ${sys.ui.old_config}
+   setprop sys.ui.start ${sys.ui.config}
+   setprop sys.ui.old_config ${sys.ui.config}
+
+# To restart the current ui, set sys.ui.restart = true
+
+on property:sys.ui.restart=true
+   setprop sys.ui.restart ${sys.ui.config}
+
+# Use the "persist.sys.ui.config" property to set what UI we wish
+# to boot into.
+#
+# To make this permanent, use "setprop persist.sys.ui.config klaatu",
+# or set "sys.ui.config=klaatu" in default.prop.
+
+on property:persist.sys.ui.config=*
+   setprop sys.ui.config ${persist.sys.ui.config}
+

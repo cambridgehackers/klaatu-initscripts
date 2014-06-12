@@ -1,8 +1,20 @@
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
+SVERSION:=$(subst ., ,$(PLATFORM_VERSION))
+SHORT_PLATFORM_VERSION=$(word 1,$(SVERSION))$(word 2,$(SVERSION))
+LOCAL_CFLAGS += -DSHORT_PLATFORM_VERSION=$(SHORT_PLATFORM_VERSION)
+
+ifeq ($(SHORT_PLATFORM_VERSION),43)
+KLAATU_COMMON=init.klaatu-common-43.rc
+else ifeq ($(SHORT_PLATFORM_VERSION),44)
+KLAATU_COMMON=init.klaatu-common-43.rc
+else
+KLAATU_COMMON=init.klaatu-common.rc
+endif
+
 file := $(TARGET_ROOT_OUT)/init.klaatu-common.rc
-$(file) : $(LOCAL_PATH)/init/init.klaatu-common.rc | $(ACP)
+$(file) : $(LOCAL_PATH)/init/$(KLAATU_COMMON) | $(ACP)
 	$(transform-prebuilt-to-target)
 ALL_MODULES += $(file)
 ALL_DEFAULT_INSTALLED_MODULES += $(file)
